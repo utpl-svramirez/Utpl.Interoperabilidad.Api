@@ -4,30 +4,32 @@ from typing import List, Optional
 
 app = FastAPI()
 
-class Persona (BaseModel):
-    id: int
+class Estudiante (BaseModel):
+    dni: int
     nombre: str
     edad: int
+    carrera: str
     ciudad: Optional[str] = None
 
-personaList = []
+EstudianteList = []
 
-@app.post("/personas", response_model=Persona)
-def crear_persona(person: Persona):
-    personaList.append(person)
-    return person
+@app.post("/Estudiantes", response_model=Estudiante)
+def crear_Estudiante(person: Estudiante):
+    EstudianteList.append(person)
+    return Estudiante
 
-@app.get("/personas", response_model=List[Persona])
+@app.get("/Estudiantes ", response_model=List[Estudiante])
 def get_personas():
     return personaList
 
-@app.get("/personas/{persona_id}", response_model=Persona)
-def obtener_persona (persona_id: int):
-    for persona in personaList:
-        if persona.id == persona_id:
-            return persona
-    raise HTTPException(status_code=404, detail="Persona no encontrada")
+@app.get("/Estudiantes /{persona_id}", response_model= Estudiante)
+def obtener_Estudiante (Estudiante_id: int):
+    for Estudiante in EstudianteList:
+        if Estudiante.dni == Estudiante_dni:
+            return Estudiante
+    raise HTTPException(status_code=404, detail=" Estudiante no encontrado")
 
 @app.get("/")
 def read_root():
-    return {"Hello": "33"}
+    return {"Interoperabilidad": "caso1_svramirez"}
+
