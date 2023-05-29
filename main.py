@@ -31,5 +31,5 @@ def obtener_Estudiante (Estudiante_id: int):
 
 @app.get("/")
 def read_root():
-    return {"Interoperabilidad": "caso1_svramirez"}
+    return {"Interoperabilidad": "caso01_svramirez"}
 
