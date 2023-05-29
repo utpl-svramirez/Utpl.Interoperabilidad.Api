@@ -1,8 +1,15 @@
 # Utpl.Interoperabilidad.Api
 
-This is a [Python Flask](https://flask.palletsprojects.com/en/2.0.x) template configured for ephemeral cloud development environments on [Gitpod](https://www.gitpod.io/).
+API para describir un estudiante.
 
-## Next Steps
+## Secuencia para despliegue en producción
+1.Configutar el repositorio con el archivo
+2.Crear una cuenta en onrender
+3.Vincular repositorio de github con onrender
+4.Crear servicio web dentro de onrender
+5.Configurar app dentro de onrender
+6.Esperar a despliegue
+
 
 Click the button below to start a new development environment:
 
