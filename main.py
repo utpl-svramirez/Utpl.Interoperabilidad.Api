@@ -31,7 +31,7 @@ def obtener_Estudiante (Estudiante_id: int):
 
 @app.delete("/Estudiantes/{persona_id}")
 def eliminar_estudiante(persona_id: int):
-    estudiante = next ((p for p in EstudianteList if p.dni == persona_id, None))
+    estudiante = next ((p for p in EstudianteList if p.Estudiante_id == persona_id, None))
     if estudiante:
         EstudianteList.remove(estudiante)
         return {"mensaje": "Estudiante eliminado exitosamente"}
