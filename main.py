@@ -22,12 +22,21 @@ def crear_Estudiante(person: Estudiante):
 def get_personas():
     return personaList
 
-@app.get("/Estudiantes /{persona_id}", response_model= Estudiante)
+@app.get("/Estudiantes/{persona_id}", response_model= Estudiante)
 def obtener_Estudiante (Estudiante_id: int):
     for Estudiante in EstudianteList:
         if Estudiante.dni == Estudiante_dni:
             return Estudiante
     raise HTTPException(status_code=404, detail=" Estudiante no encontrado")
+
+@app.delete("/Estudiantes/{persona_id}")
+def eliminar_estudiante(persona_id: int):
+    estudiante = next ((p for p in EstudianteList if p.id == persona_id, None))
+    if estudiante:
+        EstudianteList.remove(estudiante)
+        return {"mensaje": "Estudiante eliminado exitosamente"}
+    else:
+        raise HTTPException(status_code=404, detail=" Estudiante eliminado")
 
 @app.get("/")
 def read_root():
