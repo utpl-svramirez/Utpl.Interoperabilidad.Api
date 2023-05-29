@@ -3,7 +3,7 @@
 API para describir un estudiante.
 
 ## Secuencia para despliegue en producción
-### 1.Configutar el repositorio con el archivo
+### 1.Configurar el repositorio con el archivo
 ### 2.Crear una cuenta en onrender
 ### 3.Vincular repositorio de github con onrender
 ### 4.Crear servicio web dentro de onrender
