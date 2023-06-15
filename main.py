@@ -2,6 +2,14 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from typing import List, Optional
 
+import spotipy
+
+sp = spotipy.Spotify(auth_manager=spotipy.oauth2.SpotifyClientCredentials(
+    client_id='b0092ad56acf4c1baec55ddda550e9a3',
+    client_secret='9b42ffeca6d641a9b3ab1631da824fc6'
+))
+
+
 app = FastAPI()
 
 class Estudiante (BaseModel):
@@ -37,6 +45,11 @@ def eliminar_estudiante(persona_id: int):
         return {"mensaje": "Estudiante eliminado exitosamente"}
     else:
         raise HTTPException(status_code=404, detail=" Estudiante eliminado")
+
+@app.get("/tracks/{track_id}")
+async def get_track(track_id: str):
+    track = sp.track(track_id)
+    return track
 
 @app.get("/")
 def read_root():
