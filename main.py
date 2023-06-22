@@ -14,7 +14,7 @@ Utpl tnteroperabilidad API ayuda a describir las capacidades de un directorio. ğ
 
 ## Items
 
-You can **read items**.
+You can **read items **.
 
 ## Users
 
