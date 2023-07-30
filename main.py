@@ -9,6 +9,9 @@ sp = spotipy.Spotify(auth_manager=spotipy.oauth2.SpotifyClientCredentials(
     client_secret='9b42ffeca6d641a9b3ab1631da824fc6'
 ))
 
+app = FastAPI()
+
+
 description = """
 Utpl tnteroperabilidad API ayuda a describir las capacidades de un directorio. 🚀
 
@@ -62,11 +65,12 @@ def eliminar_estudiante(persona_id: int):
     else:
         raise HTTPException(status_code=404, detail=" Estudiante eliminado")
 
-@app.get("/artistas/{artista_id}")
-async def get_artista(artista_id: str):
-    artista = sp.artist(artista_id)
-    return artistak
+@app.get("/pista/{pista_id}")
 
+async def obtener_pista(pista_id: str):
+    track = sp.track(pista_id)
+    return track
+    
 @app.get("/")
 def read_root():
     return {"Interoperabilidad": "caso01_svramirez"}
