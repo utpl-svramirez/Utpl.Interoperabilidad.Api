@@ -73,5 +73,5 @@ async def obtener_pista(pista_id: str):
     
 @app.get("/")
 def read_root():
-    return {"Interoperabilidad": "caso01_svramirez"}
+    return {"Interoperabilidad": "deber_final_svramirez"}
 
