@@ -41,8 +41,8 @@ class Estudiante (BaseModel):
 EstudianteList = []
 
 @app.post("/Estudiantes", response_model=Estudiante)
-def crear_Estudiante(person: Estudiante):
-    EstudianteList.append(person)
+def crear_Estudiante(estudiante: Estudiante):
+    EstudianteList.append(estudiante)
     return Estudiante
 
 @app.get("/Estudiantes ", response_model=List[Estudiante])
@@ -58,7 +58,7 @@ def obtener_Estudiante (Estudiante_id: int):
 
 @app.delete("/Estudiantes/{Estudiante_id}")
 def eliminar_estudiante(Estudiante_id: int):
-    estudiante = next ((p for p in EstudianteList if p.Estudiante_id == persona_id), None)
+    estudiante = next ((p for p in EstudianteList if p.Estudiante_id == estudiante_id), None)
     if estudiante:
         EstudianteList.remove(estudiante)
         return {"mensaje": "Estudiante eliminado exitosamente"}
