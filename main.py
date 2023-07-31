@@ -43,7 +43,7 @@ EstudianteList = []
 @app.post("/Estudiantes", response_model=Estudiante)
 def crear_Estudiante(estudiante: Estudiante):
     EstudianteList.append(estudiante)
-    return Estudiante
+    return estudiante
 
 @app.get("/Estudiantes ", response_model=List[Estudiante])
 def get_Estudiante():
