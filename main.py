@@ -49,7 +49,7 @@ app = FastAPI(
     terms_of_service="http://www.utpl.edu.ec/",
     contact={
         "name": "Silvia Ramírez",
-        "url": "https://utpl-interoperabilidad-svramirez.onrender.com",
+        "url": "https://utpl-interoperabilidad-svramirez.onrender.com/v0.0.1",
         "email": "svramirez@utpl.edu.ec",
     },
     license_info={
