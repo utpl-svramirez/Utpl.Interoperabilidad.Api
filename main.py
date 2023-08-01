@@ -18,7 +18,6 @@ sp = spotipy.Spotify(auth_manager=spotipy.oauth2.SpotifyClientCredentials(
     client_id='c8519595485648c3949369793de3e366',
     client_secret='d266e54ea24346a7b278445be87cd400'
 ))
-
 description = """
 Utpl tnteroperabilidad API ayuda a describir las capacidades de un directorio. ðŸš€
 
@@ -27,9 +26,7 @@ Utpl tnteroperabilidad API ayuda a describir las capacidades de un directorio. ð
 Tu puedes crear un estudiante
 Tu puedes listar estudiantes.
 
-
 ## Artistas
-
 You will be able to:
 
 * **Crear artista** (_not implemented_).
@@ -90,7 +87,7 @@ class EstudianteEntradaV2 (BaseModel):
     ciudad: Optional[str] = None
 
 
-EstudianteList = []
+EstudiantesList = []
 
 @app.post("/estudiantes", response_model=EstudianteRepositorio, tags = ["estudiantes"])
 @version(1, 0)
