@@ -142,6 +142,4 @@ async def get_artista(artista_id: str):
 def read_root():
     return {"Hello": "Interoperabilidad - SVRAMIREZ"}
 
-
-
 app = VersionedFastAPI(app)
