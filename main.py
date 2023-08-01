@@ -26,10 +26,29 @@ You will be able to:
 * **Create users** (_not implemented_).
 * **Read users** (_not implemented_).
 """
-
-
+tags_metadata = [
+    {
+        "name": "estudiantes",
+        "description": "Permite realizar un crud completo de un estudiante (listar)"
+    }
+]
 
 app = FastAPI()
+    title="Utpl Interoperabilidad APP",
+    description= description,
+    version="0.0.1"
+    terms_of_service="http:utpl.edu.ec",
+    contact= {
+        "name": "Silvia Ramírez"
+        "url": "https://utpl-interoperabilidad-svramirez.onrender.com"
+        "email": "svramirez@utpl.edu.ec",
+    },
+    license_info= {
+        "name": "Apache 2.0",
+        "url": "https://www.apache.org/licenses/LICENSE-2.0.html",
+    },
+    openapi_tags = tags_metadata
+
 
 class Estudiante (BaseModel):
     dni: int
