@@ -1,49 +1,62 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Depends
 from pydantic import BaseModel
 from typing import List, Optional
+import uuid
+
+from fastapi_versioning import VersionedFastAPI, version
+
+from fastapi.security import HTTPBasic, HTTPBasicCredentials
+
+from auth import authenticate
+
+#seccion mongo importar libreria
+import pymongo
 
 import spotipy
 
 sp = spotipy.Spotify(auth_manager=spotipy.oauth2.SpotifyClientCredentials(
-    client_id='b0092ad56acf4c1baec55ddda550e9a3',
-    client_secret='9b42ffeca6d641a9b3ab1631da824fc6'
+    client_id='c8519595485648c3949369793de3e366',
+    client_secret='d266e54ea24346a7b278445be87cd400'
 ))
-
-app = FastAPI()
-
 
 description = """
 Utpl tnteroperabilidad API ayuda a describir las capacidades de un directorio. 🚀
 
-## Items
+## Estudiantes
 
-You can **read items **.
+Tu puedes crear un estudiante
+Tu puedes listar estudiantes.
 
-## Users
+
+## Artistas
 
 You will be able to:
 
-* **Create users** (_not implemented_).
-* **Read users** (_not implemented_).
+* **Crear artista** (_not implemented_).
 """
+
 tags_metadata = [
     {
-        "name": "estudiantes",
-        "description": "Permite realizar un crud completo de un estudiante (listar)"
-    }
+        "name":"estudiantes",
+        "description": "Permite realizar un crud completo de una persona (listar)"
+    },
+    {
+        "name":"artistas",
+        "description": "Permite realizar un crud completo de un artista"
+    },
 ]
 
 app = FastAPI(
-    title="Utpl Interoperabilidad APP",
+    title="Utpl Interoperabilidad APP 2",
     description= description,
     version="0.0.1",
-    terms_of_service="http:utpl.edu.ec",
+    terms_of_service="http://utpl.edu.ec/",
     contact={
         "name": "Silvia Ramírez",
         "url": "https://utpl-interoperabilidad-svramirez.onrender.com",
         "email": "svramirez@utpl.edu.ec",
     },
-    license_info= {
+    license_info={
         "name": "Apache 2.0",
         "url": "https://www.apache.org/licenses/LICENSE-2.0.html",
     },
@@ -58,48 +71,82 @@ cliente = pymongo.MongoClient("mongodb+srv://svramirez:<Sydney.786>@cluster0.is5
 database = cliente["informacion"]
 coleccion = database["estudiante"]
 
-
-class Estudiante (BaseModel):
-    dni: int
+class PersonaRepositorio (BaseModel):
+    id: str
     nombre: str
     edad: int
-    carrera: str
+    identificacion: Optional[str] = None
     ciudad: Optional[str] = None
+
+class EstudianteEntrada (BaseModel):
+    nombre:str
+    edad:int
+    ciudad: Optional[str] = None
+
+class EstudianteEntradaV2 (BaseModel):
+    nombre:str
+    edad:int
+    identificacion:str
+    ciudad: Optional[str] = None
+
 
 EstudianteList = []
 
-@app.post("/Estudiantes", response_model=Estudiante)
-def crear_Estudiante(estudiante: Estudiante):
-    EstudianteList.append(estudiante)
-    return estudiante
+@app.post("/Estudiantes", response_model=EstudianteRepositorio, tags = ["Estudiantes"])
+@version(1, 0)
+async def crear_Estudiante(personE: EstudianteEntrada):
+    itemEstudiante = EstudianteRepositorio (id= str(uuid.uuid4()), nombre = personE.nombre, edad = personE.edad, ciudad = personE.ciudad)
+    resultadoDB =  coleccion.insert_one(itemEstudiante.dict())
+    return itemEstudiante
 
-@app.get("/Estudiantes ", response_model=List[Estudiante])
-def get_Estudiante():
-    return EstudianteListList
+@app.post("/Estudiantes", response_model=EstudianteRepositorio, tags = ["Estudiantes"])
+@version(2, 0)
+async def crear_Estudiantev2(personE: EstudianteEntradaV2):
+    itemEstudiante = EstudianteRepositorio (id= str(uuid.uuid4()), nombre = personE.nombre, edad = personE.edad, ciudad = personE.ciudad, identificacion = personE.identificacion)
+    resultadoDB =  coleccion.insert_one(itemEstudiante.dict())
+    return itemEstudiante
 
-@app.get("/Estudiantes/{Estudiante_id}", response_model= Estudiante)
-def obtener_Estudiante (Estudiante_id: int):
-    for Estudiante in EstudianteList:
-        if Estudiante.dni == Estudiante_dni:
-            return Estudiante
-    raise HTTPException(status_code=404, detail=" Estudiante no encontrado")
+@app.get("/Estudiantes", response_model=List[EstudianteRepositorio], tags=["Estudiantes"])
+@version(1, 0)
+def get_Estudiantes():
+    print ("llego a consultar todas las Estudiantes")
+    items = list(coleccion.find())
+    print (items)
+    return items
 
-@app.delete("/Estudiantes/{Estudiante_id}")
-def eliminar_estudiante(Estudiante_id: int):
-    estudiante = next ((p for p in EstudianteList if p.Estudiante_id == estudiante_id), None)
-    if estudiante:
-        EstudianteList.remove(estudiante)
-        return {"mensaje": "Estudiante eliminado exitosamente"}
+@app.get("/Estudiantes/{Estudiante_id}", response_model=EstudianteRepositorio , tags=["Estudiantes"])
+@version(1, 0)
+def obtener_Estudiante (Estudiante_id: str):
+    item = coleccion.find_one({"id": Estudiante_id})
+    if item:
+        return item
     else:
-        raise HTTPException(status_code=404, detail=" Estudiante eliminado")
+        raise HTTPException(status_code=404, detail="Estudiante no encontrado")
 
-@app.get("/pista/{pista_id}")
+@app.delete("/Estudiantes/{Estudiante_id}", tags=["Estudiantes"])
+@version(1, 0)
+def eliminar_Estudiante (Estudiante_id: str):
+    result = coleccion.delete_one({"id": Estudiante_id})
+    if result.deleted_count == 1:
+        return {"mensaje": "Estudiante eliminada exitosamente"}
+    else:
+        raise HTTPException(status_code=404, detail="Estudiante no encontrada")
 
+@app.get("/pista/{pista_id}", tags = ["artistas"])
+@version(1, 0)
 async def obtener_pista(pista_id: str):
     track = sp.track(pista_id)
     return track
     
+@app.get("/artistas/{artista_id}", tags = ["artistas"])
+@version(1, 0)
+async def get_artista(artista_id: str):
+    artista = sp.artist(artista_id)
+    return artista
+
+
 @app.get("/")
 def read_root():
-    return {"Interoperabilidad": "deber_final_svramirez"}
+    return {"Hello": "Interoperabilidad - SVRAMIREZ"}
 
+app = VersionedFastAPI(app)
