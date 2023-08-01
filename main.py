@@ -33,7 +33,7 @@ You will be able to:
 
 tags_metadata = [
     {
-        "name":"estudiantes",
+        "name":"Estudiantes",
         "description": "Permite realizar un crud completo de una persona (listar)"
     },
     {
@@ -43,7 +43,7 @@ tags_metadata = [
 ]
 
 app = FastAPI(
-    title="Utpl Interoperabilidad APP 2",
+    title="Utpl Interoperabilidad APP",
     description= description,
     version="0.0.1",
     terms_of_service="http://www.utpl.edu.ec/",
@@ -143,5 +143,7 @@ async def get_artista(artista_id: str):
 @app.get("/")
 def read_root():
     return {"Hello": "Interoperabilidad - SVRAMIREZ"}
+
+
 
 app = VersionedFastAPI(app)
