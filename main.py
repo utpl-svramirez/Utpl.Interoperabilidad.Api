@@ -46,7 +46,7 @@ app = FastAPI(
     title="Utpl Interoperabilidad APP 2",
     description= description,
     version="0.0.1",
-    terms_of_service="http://utpl.edu.ec/",
+    terms_of_service="http://www.utpl.edu.ec/",
     contact={
         "name": "Silvia Ramírez",
         "url": "https://utpl-interoperabilidad-svramirez.onrender.com",
