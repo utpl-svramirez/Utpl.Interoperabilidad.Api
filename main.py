@@ -33,14 +33,14 @@ tags_metadata = [
     }
 ]
 
-app = FastAPI()
-    title= "Utpl Interoperabilidad APP",
+app = FastAPI(
+    title="Utpl Interoperabilidad APP",
     description= description,
-    version="0.0.1"
+    version="0.0.1",
     terms_of_service="http:utpl.edu.ec",
-    contact= {
-        "name": "Silvia Ramírez"
-        "url": "https://utpl-interoperabilidad-svramirez.onrender.com"
+    contact={
+        "name": "Silvia Ramírez",
+        "url": "https://utpl-interoperabilidad-svramirez.onrender.com",
         "email": "svramirez@utpl.edu.ec",
     },
     license_info= {
@@ -48,6 +48,15 @@ app = FastAPI()
         "url": "https://www.apache.org/licenses/LICENSE-2.0.html",
     },
     openapi_tags = tags_metadata
+)
+
+#para agregar seguridad a nuestro api
+security = HTTPBasic()
+
+#configuracion de mongo
+cliente = pymongo.MongoClient("mongodb+srv://svramirez:<Sydney.786>@cluster0.is5ixhq.mongodb.net/?retryWrites=true&w=majority")
+database = cliente["informacion"]
+coleccion = database["estudiante"]
 
 
 class Estudiante (BaseModel):
