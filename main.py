@@ -4,9 +4,7 @@ from typing import List, Optional
 import uuid
 
 from fastapi_versioning import VersionedFastAPI, version
-
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
-
 from auth import authenticate
 
 #seccion mongo importar libreria
@@ -33,7 +31,7 @@ You will be able to:
 
 tags_metadata = [
     {
-        "name":"Estudiantes",
+        "name":"estudiantes",
         "description": "Permite realizar un crud completo de una persona (listar)"
     },
     {
