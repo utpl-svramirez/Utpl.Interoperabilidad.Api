@@ -71,7 +71,7 @@ cliente = pymongo.MongoClient("mongodb+srv://svramirez:<Sydney.786>@cluster0.is5
 database = cliente["informacion"]
 coleccion = database["estudiante"]
 
-class PersonaRepositorio (BaseModel):
+class EstudianteRepositorio (BaseModel):
     id: str
     nombre: str
     edad: int
@@ -92,41 +92,41 @@ class EstudianteEntradaV2 (BaseModel):
 
 EstudianteList = []
 
-@app.post("/Estudiantes", response_model=EstudianteRepositorio, tags = ["Estudiantes"])
+@app.post("/estudiantes", response_model=EstudianteRepositorio, tags = ["estudiantes"])
 @version(1, 0)
-async def crear_Estudiante(personE: EstudianteEntrada):
-    itemEstudiante = EstudianteRepositorio (id= str(uuid.uuid4()), nombre = personE.nombre, edad = personE.edad, ciudad = personE.ciudad)
+async def crear_Estudiante(estudianteE: EstudianteEntrada):
+    itemEstudiante = EstudianteRepositorio (id= str(uuid.uuid4()), nombre = estudianteE.nombre, edad = estudianteE.edad, ciudad = estudianteE.ciudad)
     resultadoDB =  coleccion.insert_one(itemEstudiante.dict())
     return itemEstudiante
 
-@app.post("/Estudiantes", response_model=EstudianteRepositorio, tags = ["Estudiantes"])
+@app.post("/estudiantes", response_model=EstudianteRepositorio, tags = ["estudiantes"])
 @version(2, 0)
-async def crear_Estudiantev2(personE: EstudianteEntradaV2):
-    itemEstudiante = EstudianteRepositorio (id= str(uuid.uuid4()), nombre = personE.nombre, edad = personE.edad, ciudad = personE.ciudad, identificacion = personE.identificacion)
+async def crear_estudiantev2(estudianteE: EstudianteEntradaV2):
+    itemEstudiante = EstudianteRepositorio (id= str(uuid.uuid4()), nombre = estudianteE.nombre, edad = estudianteE.edad, ciudad = estudianteE.ciudad, identificacion = estudianteE.identificacion)
     resultadoDB =  coleccion.insert_one(itemEstudiante.dict())
     return itemEstudiante
 
-@app.get("/Estudiantes", response_model=List[EstudianteRepositorio], tags=["Estudiantes"])
+@app.get("/Estudiantes", response_model=List[EstudianteRepositorio], tags=["estudiantes"])
 @version(1, 0)
-def get_Estudiantes():
-    print ("llego a consultar todas las Estudiantes")
+def get_estudiantes():
+    print ("llego a consultar todas los estudiantes")
     items = list(coleccion.find())
     print (items)
     return items
 
-@app.get("/Estudiantes/{Estudiante_id}", response_model=EstudianteRepositorio , tags=["Estudiantes"])
+@app.get("/estudiantes/{estudiante_id}", response_model=EstudianteRepositorio , tags=["estudiantes"])
 @version(1, 0)
-def obtener_Estudiante (Estudiante_id: str):
-    item = coleccion.find_one({"id": Estudiante_id})
+def obtener_Estudiante (estudiante_id: str):
+    item = coleccion.find_one({"id": estudiante_id})
     if item:
         return item
     else:
         raise HTTPException(status_code=404, detail="Estudiante no encontrado")
 
-@app.delete("/Estudiantes/{Estudiante_id}", tags=["Estudiantes"])
+@app.delete("/estudiantes/{estudiante_id}", tags=["estudiantes"])
 @version(1, 0)
-def eliminar_Estudiante (Estudiante_id: str):
-    result = coleccion.delete_one({"id": Estudiante_id})
+def eliminar_Estudiante (estudiante_id: str):
+    result = coleccion.delete_one({"id": estudiante_id})
     if result.deleted_count == 1:
         return {"mensaje": "Estudiante eliminada exitosamente"}
     else:
