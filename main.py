@@ -22,7 +22,6 @@ description = """
 Utpl tnteroperabilidad API ayuda a describir las capacidades de un directorio. 🚀
 
 ## Estudiantes
-
 Tu puedes crear un estudiante
 Tu puedes listar estudiantes.
 
@@ -140,7 +139,6 @@ async def obtener_pista(pista_id: str):
 async def get_artista(artista_id: str):
     artista = sp.artist(artista_id)
     return artista
-
 
 @app.get("/")
 def read_root():
